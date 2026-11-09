@@ -13,3 +13,6 @@
 
 ## Python side
 - [ ] Connect user credentials to database
+
+## Other
+- [ ] Reconfigure dependencies such that install dependencies is in a different file and make sure that `setup_and_run.py` checks that dependencies are installed and working
