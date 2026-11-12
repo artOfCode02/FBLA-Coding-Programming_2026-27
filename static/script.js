@@ -1,5 +1,5 @@
 // Import other js file functions
-import { } from "./js/index.js"
+import { index_form_listener } from "./js/index.js"
 
 // Proccess documents
 document.addEventListener('DOMContentLoaded', function() {
@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
   switch (window.location.pathname) {
     case '/':
       console.log("Proccessing index.html");
-      // TODO: Link index form handler
+      index_form_listener();
+      break;
+    
+    // TODO: Add js for organzier and volunteer dashboards
 
     default:
       console.error("On unkown page:", window.location.pathname);
+      break;
   }
 })

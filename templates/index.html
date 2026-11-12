@@ -1,7 +1,6 @@
 <!DOCTYPE html5>
 <html>
 <head>
-  <title>Title</title>
   <script type="module" src="{{ url_for('static', filename='script.js') }}" defer></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -11,11 +10,28 @@
     <b>WELCOME TO VOLUN-TRACK</b>
   </nav>
   <form id="sign-in-box">
- <fieldset id="sign-in-fieldset">
+    <fieldset id="role-fieldset" class="registration-fieldset">
+      <legend id="role-title">I am a...</legend>
+
+      <input type="radio" id="role-volunteer" name="role" value="volunteer" required>
+      <label for="role-volunteer">Volunteer</label>
+
+      <input type="radio" id="role-organizer" name="role" value="organizer">
+      <label for="role-organizer">Organizer</label>
+    </fieldset>
+    
+    <fieldset id="sign-in-fieldset" class="registration-fieldset">
       <legend id="sign-in-title">Sign In</legend>
       <!-- TODO: Add link to sign-up -->
-      <!-- TODO: Make username and password labels -->
+
+      <label id="username-label" for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label id="password-label" for="password">Password:</label>
+      <!-- TODO: Add in show/hide password -->
+      <input type="password" id="password" name="password" required>
     </fieldset>
+    <button type="submit" value="Submit">Submit</button>
   </form>
 </body>
 </html>
