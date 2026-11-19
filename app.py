@@ -61,6 +61,15 @@ def verify_credentials():
 #########################################################################
 
 
+############################--- SIGN UP ---##############################
+@app.route("/sign-up", methods=["POST"])
+def sign_up():
+    return render_template("sign_up.html")
+
+
+#########################################################################
+
+
 #####################--- VOLUNTEER DASHBOARD ---#########################
 @app.route("/volunteer-dashboard")
 def vounteer_dashboard():

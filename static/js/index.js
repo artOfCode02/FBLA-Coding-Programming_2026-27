@@ -2,7 +2,7 @@
 export function index_form_listener() {
   console.log("Running index_form_listner");
 
-  const init_form = document.getElementById('sign-in-box');
+  const init_form = document.getElementById('sign-in-form');
 
   if (init_form) {
     console.log("init_form exists, attaching listener");

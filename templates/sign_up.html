@@ -1,0 +1,34 @@
+<!DOCTYPE html5>
+<html>
+<head>
+  <script type="module" src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <form id="sign-up-form">
+    <fieldset id="role-fieldset" class="registration-fieldset">
+      <legend id="role-title">I am a...</legend>
+
+      <input type="radio" id="role-volunteer" name="role" value="volunteer" required>
+      <label for="role-volunteer">Volunteer</label>
+
+      <input type="radio" id="role-organizer" name="role" value="organizer">
+      <label for="role-organizer">Organizer</label>
+    </fieldset>
+    
+    <fieldset id="sign-in-fieldset" class="registration-fieldset">
+      <legend id="sign-in-title">Sign Up</legend>
+
+      <label id="username-label" for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label id="password-label" for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label id="confirm-password-label" for="confirm-password">Confirm Password:</label>
+      <input type="confirm-password" id="confirm-password" name="confirm-password" required>
+    </fieldset>
+  </form>
+</body>
+</html>
