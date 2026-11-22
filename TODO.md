@@ -1,7 +1,7 @@
 # TODO List
 
-
 ## Major Features
+
 - [x] A method to sign in as a volunteer or organizer
 - [ ] A method to make a new account as a volunteer or organizer
 
@@ -12,6 +12,8 @@
 
 ## Trinkets
 
-
 ## Specific Features
-- [ ] Reconfigure dependencies such that install dependencies is in a different file and make sure that `setup_and_run.py` checks that dependencies are installed and working
+
+- [ ] Reconfigure dependencies such that install dependencies is a different
+      file and make sure that `setup_and_run.py` checks that dependencies are
+      installed and working

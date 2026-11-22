@@ -67,6 +67,12 @@ def sign_up():
     return render_template("sign_up.html")
 
 
+@app.route("/add-credentials", methods=["POST"])
+def add_credentials():
+    if request.is_json:
+        data = request.get_json()
+
+
 #########################################################################
 
 
