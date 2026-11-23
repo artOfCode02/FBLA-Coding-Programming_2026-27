@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, render_template  # Python web framework
+import numpy as np
 import os
 import json
 
@@ -8,23 +9,38 @@ app = Flask(__name__)
 CREDENTIALS_FILE = "credentials.json"
 
 
-def load_credentials():
-    if os.path.exists(CREDENTIALS_FILE):
-        with open(CREDENTIALS_FILE, "r") as f:
-            return json.load(f)
-    return {}
+def read_json_file(file):
+    if not os.path.exists(file):
+        return {}
+    with open(file, "r", encoding="utf-8") as f:
+        content = f.read().strip()
+    if not content:
+        return {}
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        return {}
 
 
-def check_credentials(username, password):
-    credentials_data = load_credentials()
+def append_json_file(file, key, value):
+    if os.path.exists(file):
+        content = read_json_file(file)
+
+        content[key] = value
+
+        with open(file, "w") as f:
+            json.dump(content, f, indent=2)
+
+
+def check_credentials(username, password, role):
+    credentials_data = read_json_file(CREDENTIALS_FILE)
     print("Loaded credentials_data:", repr(credentials_data))
     print("Typed inputs", repr(username), repr(password))
 
     clean_username = username.strip()
 
-    if (
-        clean_username in credentials_data
-        and credentials_data[clean_username] == password
+    if clean_username in credentials_data and np.array_equal(
+        credentials_data[clean_username], {password, role}
     ):
         return True
     else:
@@ -46,23 +62,26 @@ def verify_credentials():
         # Extract variables from arguments
         username = data.get("username")
         password = data.get("password")
+        role = data.get("role")
 
         if not all([username, password]):
             return jsonify(
                 {
                     "success": False,
-                    "message": "Missing required fields (username, businessID, or businessName).",
+                    "message": "Missing required fields (username, passowrd)",
                 }
             ), 400
 
-    return jsonify({"success": True, "verified": check_credentials(username, password)})
+    return jsonify(
+        {"success": True, "verified": check_credentials(username, password, role)}
+    ), 200
 
 
 #########################################################################
 
 
 ############################--- SIGN UP ---##############################
-@app.route("/sign-up", methods=["POST"])
+@app.route("/sign-up")
 def sign_up():
     return render_template("sign_up.html")
 
@@ -71,6 +90,24 @@ def sign_up():
 def add_credentials():
     if request.is_json:
         data = request.get_json()
+
+        username = data.get("username")
+        password = data.get("password")
+        role = data.get("role")
+
+        if not all([username, password, role]):
+            return jsonify(
+                {
+                    "success": False,
+                    "message": "Missing required fields (username, password)",
+                }
+            ), 400
+
+        append_json_file(
+            CREDENTIALS_FILE, username, {"password": password, "role": role}
+        )
+
+        return jsonify({"success": True, "message": "Add credentials successful"}), 200
 
 
 #########################################################################

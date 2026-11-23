@@ -9,6 +9,9 @@
   <nav class="nav-bar">
     <b>WELCOME TO VOLUN-TRACK</b>
   </nav>
+
+    <p>Don't have an account? <a href="{{ url_for('sign_up') }}">Sign up here!<a></a></p>
+
   <form id="sign-in-form">
     <fieldset id="role-fieldset" class="registration-fieldset">
       <legend id="role-title">I am a...</legend>
@@ -22,7 +25,6 @@
     
     <fieldset id="sign-in-fieldset" class="registration-fieldset">
       <legend id="sign-in-title">Sign In</legend>
-      <!-- TODO: Add link to sign-up -->
 
       <label id="username-label" for="username">Username:</label>
       <input type="text" id="username" name="username" required>

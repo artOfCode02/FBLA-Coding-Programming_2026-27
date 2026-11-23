@@ -27,7 +27,7 @@ print(f"Activating virtual environment: {activate_script}")
 python_exe = os.path.join(
     venv_dir,
     "Scripts" if os.name == "nt" else "bin",
-    "python.exe" if os.name == "nt" else "python"
+    "python.exe" if os.name == "nt" else "python",
 )
 
 # -----------------------------
@@ -35,7 +35,21 @@ python_exe = os.path.join(
 # -----------------------------
 print("Installing dependencies...")
 subprocess.check_call([python_exe, "-m", "pip", "install", "--upgrade", "pip"])
-subprocess.check_call([python_exe, "-m", "pip", "install", "flask", "requests", "pyqt5", "pyqtwebengine", "PyQt6-Webengine", "geopy"])
+subprocess.check_call(
+    [
+        python_exe,
+        "-m",
+        "pip",
+        "install",
+        "numpy",
+        "flask",
+        "requests",
+        "pyqt5",
+        "pyqtwebengine",
+        "PyQt6-Webengine",
+        "geopy",
+    ]
+)
 
 print("Dependencies installed.")
 

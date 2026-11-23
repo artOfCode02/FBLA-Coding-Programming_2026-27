@@ -23,7 +23,7 @@ export function index_form_listener() {
         const response = await fetch('/verify-credentials', {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({username, password})
+          body: JSON.stringify({username, password, role})
         })
 
         if (response.ok) {
@@ -50,7 +50,7 @@ export function index_form_listener() {
       } else {
         // TODO: Tempoary form, needs work
         alert("Incorrect username or password.");
-       // window.location.reload();
+        window.location.reload();
       }
     });
   }
