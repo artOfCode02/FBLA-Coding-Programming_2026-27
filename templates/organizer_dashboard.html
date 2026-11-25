@@ -1,0 +1,44 @@
+<!DOCTYPE html5>
+<html>
+<head>
+  <script type="module" src="{{ url_for('static', filename='script.js') }}" defer></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav class="nav-bar">
+    <h1>ORGANIZER DASHBOARD</h1>
+  </nav>
+
+  <!-- Create organization -->
+  <p>Create Organization <button type="button" id="create-organization">+</button></p>
+  <dialog id="create-org-dialog">
+    <button type="button" id="close-dialog-button">Close</button>
+    <h1>Create Organization</h1>
+    <hr>
+    <form id="create-organization-form">
+
+      <!-- Name and description -->
+      <fieldset id="name-desc-fieldset" class="registration-fieldset">
+        <label for="create-title">Title:</label>
+        <input type="text" id="create-title" name="create-title" required>
+
+        <br>
+
+        <label for="create-desc">Description:</label><br>
+        <textarea id="create-desc" rows="4" cols="50" placeholer="Enter a short description of your organization here..."></textarea>
+      </fieldset>
+
+      <!-- TODO: make and extra details sction -->
+      
+      <button type="submit">Create</button>
+    </form>
+  </dialog>
+
+  <!-- Manage Oraganization Section -->
+  <!-- TODO: Make a choose organization dropdown -->
+  <!-- TODO: Organization announcements -->
+  <!-- TODO: Events management -->
+  <!-- TODO: Volunteer management (possibly a link to a seperate page) -->
+</body>
+</html>

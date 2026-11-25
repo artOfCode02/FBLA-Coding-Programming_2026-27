@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, render_template  # Python web framework
-import numpy as np
 import os
 import json
 
@@ -7,6 +6,7 @@ import json
 app = Flask(__name__)
 
 CREDENTIALS_FILE = "credentials.json"
+ORGS_FILE = "orgs.json"
 
 
 def read_json_file(file):
@@ -34,14 +34,15 @@ def append_json_file(file, key, value):
 
 def check_credentials(username, password, role):
     credentials_data = read_json_file(CREDENTIALS_FILE)
-    print("Loaded credentials_data:", repr(credentials_data))
     print("Typed inputs", repr(username), repr(password))
 
     clean_username = username.strip()
 
-    if clean_username in credentials_data and np.array_equal(
-        credentials_data[clean_username], {password, role}
-    ):
+    verify_username = clean_username in credentials_data
+    verify_password = credentials_data[clean_username]["password"] == password
+    verify_role = credentials_data[clean_username]["role"] == role
+
+    if verify_username and verify_password and verify_role:
         return True
     else:
         return False
@@ -126,6 +127,28 @@ def vounteer_dashboard():
 @app.route("/organizer-dashboard")
 def organizer_dashboard():
     return render_template("organizer_dashboard.html")
+
+
+@app.route("/add-org", methods=["POST"])
+def add_org():
+    if request.is_json:
+        data = request.get_json()
+
+        id = len(read_json_file(ORGS_FILE)) + 1
+        title = data.get("create_title")
+        desc = data.get("create_desc")
+
+        if not all([title, desc]):
+            return jsonify(
+                {
+                    "success": False,
+                    "message": "Missing required fields (id, title, desc)",
+                }
+            ), 400
+
+        append_json_file(ORGS_FILE, id, {"title": title, "desc": desc})
+
+        return jsonify({"success": True, "message": "Add org successful"}), 200
 
 
 #########################################################################
