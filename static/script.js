@@ -1,7 +1,7 @@
 // Import other js file functions
 import { index_form_listener }   from "./js/index.js"
 import { sign_up_form_listener } from "./js/sign_up.js"
-import { create_organization_listener } from "./js/organizer_dashboard.js"
+import { create_organization_listener, select_organization_listener } from "./js/organizer_dashboard.js"
 
 // Proccess documents
 document.addEventListener('DOMContentLoaded', function() {
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     case '/organizer-dashboard':
       console.log("Proccessing orgaizer_dashboard.html");
       create_organization_listener();
+      select_organization_listener();
       break;
 
     default:

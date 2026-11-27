@@ -2,6 +2,21 @@
 export function index_form_listener() {
   console.log("Running index_form_listner");
 
+  const password = document.getElementById('password');
+  const togglePassword = document.getElementById('toggle-password');
+
+  if (password && togglePassword) {
+    togglePassword.addEventListener('click', () => {
+      const isHidden = password.type === 'password';
+      password.type = isHidden ? 'text' : 'password';
+      togglePassword.textContent = isHidden ? 'Hide' : 'Show';
+      togglePassword.setAttribute(
+        'aria-label',
+        isHidden ? 'Hide password' : 'Show password'
+      );
+    });
+  }
+
   const init_form = document.getElementById('sign-in-form');
 
   if (init_form) {
@@ -41,6 +56,8 @@ export function index_form_listener() {
       }
 
       if (verify_status) {
+        localStorage.setItem('username', username);
+
         // Redirect based on role selected
         if (role === "volunteer") {
           window.location.href = "/volunteer-dashboard";

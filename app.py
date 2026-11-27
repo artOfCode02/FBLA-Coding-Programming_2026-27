@@ -48,6 +48,27 @@ def check_credentials(username, password, role):
         return False
 
 
+def get_owned_organizations(username):
+    """Return owned organizations in the same dictionary layout as orgs.json."""
+    if not username:
+        return {}
+
+    username = username.strip()
+    organizations = read_json_file(ORGS_FILE)
+    owned_organizations = {}
+
+    for org_id, organization in organizations.items():
+        owners = organization.get("owner", [])
+
+        if isinstance(owners, str):
+            owners = [owners]
+
+        if username in owners:
+            owned_organizations[org_id] = organization
+
+    return owned_organizations
+
+
 ##########################--- INDEX ---##################################
 # Render index.html
 @app.route("/")
@@ -137,6 +158,7 @@ def add_org():
         id = len(read_json_file(ORGS_FILE)) + 1
         title = data.get("create_title")
         desc = data.get("create_desc")
+        owner = data.get("create_owner")
 
         if not all([title, desc]):
             return jsonify(
@@ -146,9 +168,30 @@ def add_org():
                 }
             ), 400
 
-        append_json_file(ORGS_FILE, id, {"title": title, "desc": desc})
+        append_json_file(
+            ORGS_FILE, id, {"title": title, "owner": [owner], "desc": desc}
+        )
 
         return jsonify({"success": True, "message": "Add org successful"}), 200
+
+@app.route("/get-orgs", methods=["POST"])
+def get_orgs():
+    if request.is_json:
+        data = request.get_json()
+
+        username = data.get("username")
+
+        if not username:
+            return jsonify(
+                {
+                    "success": False,
+                    "message": "Missing required fields (username)",
+                }
+            ), 400
+
+        owned_organizations = get_owned_organizations(username)
+
+        return jsonify({"success": True, "owned_organizations": owned_organizations}), 200
 
 
 #########################################################################

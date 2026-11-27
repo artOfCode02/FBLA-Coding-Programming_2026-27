@@ -1,6 +1,9 @@
-<!DOCTYPE html5>
+<!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volun-Track Sign In</title>
   <script type="module" src="{{ url_for('static', filename='script.js') }}" defer></script>
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -10,7 +13,7 @@
     <b>WELCOME TO VOLUN-TRACK</b>
   </nav>
 
-  <p>Don't have an account? <a href="{{ url_for('sign_up') }}">Sign up here!<a></a></p>
+  <p>Don't have an account? <a href="{{ url_for('sign_up') }}">Sign up here!</a></p>
 
   <form id="sign-in-form">
     <fieldset id="role-fieldset" class="registration-fieldset">
@@ -30,8 +33,10 @@
       <input type="text" id="username" name="username" required>
 
       <label id="password-label" for="password">Password:</label>
-      <!-- TODO: Add in show/hide password -->
-      <input type="password" id="password" name="password" required>
+      <div class="password-field">
+        <input type="password" id="password" name="password" required>
+        <button type="button" id="toggle-password" aria-controls="password" aria-label="Show password">Show</button>
+      </div>
     </fieldset>
     <button type="submit" value="Submit">Submit</button>
   </form>

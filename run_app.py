@@ -28,7 +28,7 @@ def process_commands(view):
 
 # Start Flask, used to connect javascript with python
 def start_flask():
-    app.run()
+    app.run(host="127.0.0.1", port=5001, threaded=True, use_reloader=False)
 
 
 ##########################--- DEBUG ---##################################
@@ -96,7 +96,7 @@ def main():
     # Start the application
     Qapp = QApplication(sys.argv)
     view = QWebEngineView()
-    view.load(QUrl("http://127.0.0.1:5000"))
+    view.load(QUrl("http://127.0.0.1:5001"))
 
     # Build a simple navigation bar (non-editable URL display)
     main_window = QWidget()
@@ -129,7 +129,7 @@ def main():
                             }""")
 
     url_label = QLabel()
-    initial_url = "http://127.0.0.1:5000"
+    initial_url = "http://127.0.0.1:5001"
     url_label.setStyleSheet("""QLabel {
                                 padding: 2px; 
                                 background: #fff; 
