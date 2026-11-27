@@ -21,6 +21,6 @@
 
 ## Specific Features
 
-- [ ] Reconfigure dependencies such that install dependencies is a different
+- [x] Reconfigure dependencies such that install dependencies is a different
       file and make sure that `setup_and_run.py` checks that dependencies are
-      installed and working
+      installed and working.
