@@ -65,6 +65,7 @@ def get_owned_organizations(username):
 
         if username in owners:
             owned_organizations[org_id] = organization
+            break
 
     return owned_organizations
 
@@ -150,29 +151,40 @@ def organizer_dashboard():
     return render_template("organizer_dashboard.html")
 
 
-@app.route("/add-org", methods=["POST"])
-def add_org():
-    if request.is_json:
-        data = request.get_json()
+@app.route("/edit-org", methods=["POST"])
+def edit_org():
+    if not request.is_json:
+        return jsonify({"success": False, "message": "JSON required"}), 400
 
-        id = len(read_json_file(ORGS_FILE)) + 1
-        title = data.get("create_title")
-        desc = data.get("create_desc")
-        owner = data.get("create_owner")
+    data = request.get_json()
+    title = data.get("edit_title", "").strip()
+    desc = data.get("edit_desc", "").strip()
+    email = data.get("edit_contact", "").strip()
+    location = data.get("edit_location", "").strip()
 
-        if not all([title, desc]):
-            return jsonify(
-                {
-                    "success": False,
-                    "message": "Missing required fields (id, title, desc)",
-                }
-            ), 400
+    if not all([title, desc, email, location]):
+        return jsonify(
+            {
+                "success": False,
+                "message": "Missing required fields (title, description, email, location)",
+            }
+        ), 400
 
-        append_json_file(
-            ORGS_FILE, id, {"title": title, "owner": [owner], "desc": desc}
-        )
+    organizations = read_json_file(ORGS_FILE)
+    if not organizations:
+        return jsonify({"success": False, "message": "Organization not found"}), 404
 
-        return jsonify({"success": True, "message": "Add org successful"}), 200
+    org_id = next(iter(organizations))
+    organizations[org_id]["title"] = title
+    organizations[org_id]["desc"] = desc
+    organizations[org_id]["email"] = email
+    organizations[org_id]["location"] = location
+
+    with open(ORGS_FILE, "w", encoding="utf-8") as file:
+        json.dump(organizations, file, indent=2)
+
+    return jsonify({"success": True, "message": "Organization updated successfully"}), 200
+
 
 @app.route("/get-orgs", methods=["POST"])
 def get_orgs():
@@ -194,4 +206,39 @@ def get_orgs():
         return jsonify({"success": True, "owned_organizations": owned_organizations}), 200
 
 
-#########################################################################
+@app.route("/get-volunteers", methods=["GET"])
+def get_volunteers():
+    credentials = read_json_file(CREDENTIALS_FILE)
+    volunteers = {
+        username: {
+            "role": account.get("role", ""),
+            "status": account.get("status", "active"),
+        }
+        for username, account in credentials.items()
+        if account.get("role") == "volunteer"
+    }
+    return jsonify({"success": True, "volunteers": volunteers}), 200
+
+
+@app.route("/update-volunteer", methods=["POST"])
+def update_volunteer():
+    if not request.is_json:
+        return jsonify({"success": False, "message": "JSON required"}), 400
+
+    data = request.get_json()
+    username = data.get("username", "").strip()
+    status = data.get("status")
+
+    if not username or status not in ("active", "inactive"):
+        return jsonify({"success": False, "message": "Invalid username or status"}), 400
+
+    credentials = read_json_file(CREDENTIALS_FILE)
+    if username not in credentials or credentials[username].get("role") != "volunteer":
+        return jsonify({"success": False, "message": "Volunteer not found"}), 404
+
+    credentials[username]["status"] = status
+
+    with open(CREDENTIALS_FILE, "w", encoding="utf-8") as file:
+        json.dump(credentials, file, indent=2)
+
+    return jsonify({"success": True, "message": "Volunteer status updated"}), 200

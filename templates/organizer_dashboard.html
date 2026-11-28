@@ -10,42 +10,193 @@
     <h1>ORGANIZER DASHBOARD</h1>
   </nav>
 
-  <!-- Create organization -->
-  <p>Create Organization <button type="button" id="create-organization">+</button></p>
-  <dialog id="create-org-dialog">
-    <button type="button" id="close-dialog-button">Close</button>
-    <h1>Create Organization</h1>
+  <!-- Edit organization -->
+  <p>Edit Organization <button type="button" id="edit-organization">Edit</button></p>
+  <dialog id="edit-org-dialog">
+    <button type="button" id="close-edit-dialog-button">Close</button>
+    <h1>Edit Organization</h1>
     <hr>
-    <form id="create-organization-form">
+    <form id="edit-organization-form">
 
       <!-- Name and description -->
       <fieldset id="name-desc-fieldset" class="registration-fieldset">
-        <label for="create-title">Title:</label>
-        <input type="text" id="create-title" name="create-title" required>
-
+        <label for="edit-title">Title:</label>
+        <input type="text" id="edit-title" name="edit-title" required>
         <br>
 
-        <label for="create-desc">Description:</label><br>
-        <textarea id="create-desc" rows="4" cols="50" placeholer="Enter a short description of your organization here..."></textarea>
+        <label for="edit-desc">Description:</label><br>
+        <textarea id="edit-desc" rows="4" cols="50" placeholder="Enter a short description of your organization here..." required></textarea>
+        <br>
+
+        <label for="edit-contact">Contact Email:</label>
+        <input type="email" id="edit-contact" name="edit-contact" placeholder="contact@example.org" required>
+        <br>
+
+        <label for="edit-location">Location:</label>
+        <input type="text" id="edit-location" name="edit-location" placeholder="City or address" required>
       </fieldset>
 
-      <!-- TODO: make and extra details sction -->
-      
-      <button type="submit">Create</button>
+      <button type="submit">Save Changes</button>
     </form>
   </dialog>
 
-  <!-- Manage Oraganization Section -->
-  <!-- TODO: Make a choose organization dropdown -->
-  <!-- TODO: Organization announcements -->
-  <!-- TODO: Events management -->
-  <!-- TODO: Volunteer management (possibly a link to a seperate page) -->
+  <!-- Manage Organization Section -->
   <div id="manage-organization">
     <h2>Manage Organization</h2>
-    <p>Choose an organization to manage:</p>
-    <select id="organization-dropdown">
-      <option value="">Select an organization</option>
-      <!-- Options will be populated dynamically -->
-    </select>
+    <p>
+      Organization: <strong id="organization-name">No organization created</strong>
+    </p>
+
+    <div id="organization-details">
+      <!-- Organization details -->
+      <fieldset id="organization-details-fieldset" class="registration-fieldset">
+        <legend>Organization Details</legend>
+
+        <label for="organization-contact">Contact Email:</label>
+        <input type="email" id="organization-contact" name="organization-contact" placeholder="contact@example.org" readonly><br>
+
+        <label for="organization-location">Location:</label>
+        <input type="text" id="organization-location" name="organization-location" placeholder="City or address" readonly><br>
+
+        <label for="organization-details-desc">Additional Details:</label><br>
+        <textarea id="organization-details-desc" name="organization-details-desc" rows="4" cols="50" placeholder="Enter additional organization details" readonly></textarea>
+      </fieldset>
+    </div>
+
+    <div id="organization-announcements">
+      <fieldset class="registration-fieldset">
+        <legend>Active Announcements</legend>
+        <ul id="announcement-list">
+        </ul>
+      </fieldset>
+
+      <fieldset class="registration-fieldset">
+        <legend>Create Announcement</legend>
+        <form id="create-announcement-form">
+          <label for="announcement-title">Title:</label>
+          <input type="text" id="announcement-title" name="announcement-title" required>
+          <br>
+
+          <label for="announcement-content">Content:</label><br>
+          <textarea id="announcement-content" name="announcement-content" rows="5" cols="50" required></textarea>
+          <br>
+
+          <label for="announcement-recipients">Recipients:</label>
+          <select id="announcement-recipients" name="announcement-recipients">
+            <option value="all">All volunteers</option>
+            <option value="selected">Selected volunteers</option>
+          </select>
+          <br>
+
+          <label for="announcement-start">Active From:</label>
+          <input type="datetime-local" id="announcement-start" name="announcement-start">
+          <br>
+
+          <label for="announcement-end">Active Until:</label>
+          <input type="datetime-local" id="announcement-end" name="announcement-end">
+          <br>
+
+          <label>
+            <input type="checkbox" id="announcement-forever" name="announcement-forever">
+            Keep active indefinitely
+          </label>
+          <br>
+
+          <button type="submit">Create Announcement</button>
+        </form>
+      </fieldset>
+
+      <fieldset class="registration-fieldset">
+        <legend>Manage Announcements</legend>
+        <button type="button" id="open-announcements-dialog">View and Edit Announcements</button>
+        <dialog id="manage-announcements-dialog">
+          <button type="button" id="close-announcements-dialog">Close</button>
+          <h2>Manage Announcements</h2>
+          <ul id="all-announcement-list"></ul>
+        </dialog>
+      </fieldset>
+    </div>
+
+    <div id="organization-events">
+      <fieldset class="registration-fieldset">
+        <legend>Active Events</legend>
+        <ul id="event-list">
+        </ul>
+      </fieldset>
+
+      <fieldset class="registration-fieldset">
+        <legend>Create Event</legend>
+        <form id="create-event-form">
+          <label for="event-title">Event Title:</label>
+          <input type="text" id="event-title" name="event-title" required>
+          <br>
+
+          <label for="event-description">Description:</label><br>
+          <textarea id="event-description" name="event-description" rows="4" cols="50" required></textarea>
+          <br>
+
+          <label for="event-location">Location:</label>
+          <input type="text" id="event-location" name="event-location">
+          <br>
+
+          <label for="event-start">Starts:</label>
+          <input type="datetime-local" id="event-start" name="event-start" required>
+          <br>
+
+          <label for="event-end">Ends:</label>
+          <input type="datetime-local" id="event-end" name="event-end">
+          <br>
+
+          <label for="event-capacity">Volunteer Capacity:</label>
+          <input type="number" id="event-capacity" name="event-capacity" min="1" step="1">
+          <br>
+
+          <button type="submit">Create Event</button>
+        </form>
+      </fieldset>
+    </div>
+
+    <div id="volunteer-management">
+      <fieldset class="registration-fieldset">
+        <legend>Volunteer Management</legend>
+
+        <p>
+          Total: <strong id="volunteer-total-count">0</strong>
+          | Active: <strong id="volunteer-active-count">0</strong>
+          | Inactive: <strong id="volunteer-inactive-count">0</strong>
+        </p>
+
+        <form id="volunteer-search-form">
+          <label for="volunteer-search">Search Volunteers:</label>
+          <input type="search" id="volunteer-search" name="volunteer-search" placeholder="Username">
+          <br>
+
+          <label for="volunteer-status-filter">Status:</label>
+          <select id="volunteer-status-filter" name="volunteer-status-filter">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <br>
+
+          <button type="submit">Search</button>
+        </form>
+
+        <table id="volunteer-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="volunteer-list">
+          </tbody>
+        </table>
+
+        <p id="volunteer-management-empty">No volunteers found.</p>
+      </fieldset>
+    </div>
+  </div>
 </body>
 </html>
