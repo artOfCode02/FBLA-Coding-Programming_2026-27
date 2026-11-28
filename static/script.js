@@ -2,6 +2,7 @@
 import { index_form_listener }   from "./js/index.js"
 import { sign_up_form_listener } from "./js/sign_up.js"
 import {
+  announcement_date_listener,
   edit_organization_listener,
   select_organization_listener,
   volunteer_management_listener
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // TODO: Add js for organzier and volunteer dashboards
     case '/organizer-dashboard':
       console.log("Processing organizer_dashboard.html");
+      announcement_date_listener();
       edit_organization_listener();
       select_organization_listener();
       volunteer_management_listener();

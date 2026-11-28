@@ -212,3 +212,32 @@ export async function volunteer_management_listener() {
   await loadVolunteers();
 }
 
+export function announcement_date_listener() {
+  const today_button = document.getElementById('announcement-today-button');
+  const start_input = document.getElementById('announcement-start');
+  const end_input = document.getElementById('announcement-end');
+  const forever_checkbox = document.getElementById('announcement-forever');
+
+  if (!today_button || !start_input || !end_input || !forever_checkbox) {
+    return;
+  }
+
+  today_button.addEventListener('click', () => {
+    const now = new Date();
+    const timezone_offset = now.getTimezoneOffset() * 60000;
+    start_input.value = new Date(now.getTime() - timezone_offset)
+      .toISOString()
+      .slice(0, 16);
+  });
+
+  forever_checkbox.addEventListener('change', () => {
+    end_input.disabled = forever_checkbox.checked;
+
+    if (forever_checkbox.checked) {
+      end_input.value = '';
+    }
+
+    end_input.style.backgroundColor = forever_checkbox.checked ? '#b0b0b0' : '';
+  });
+}
+
